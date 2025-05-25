@@ -40,10 +40,10 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          
+
           # Fetch the target branch
           git fetch origin ${{ github.base_ref }}
-          
+
           # Check if merge is possible without conflicts
           if ! git merge-tree $(git merge-base HEAD origin/${{ github.base_ref }}) HEAD origin/${{ github.base_ref }}) | grep -q "<<<<<<< "; then
             echo "✅ No merge conflicts detected"
