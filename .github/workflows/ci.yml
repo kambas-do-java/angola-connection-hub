@@ -70,6 +70,8 @@ jobs:
           name: Maven Tests (JDK ${{ matrix.java-version }})
           path: target/surefire-reports/*.xml
           reporter: java-junit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload coverage reports to Codecov
         if: matrix.java-version == '17'
