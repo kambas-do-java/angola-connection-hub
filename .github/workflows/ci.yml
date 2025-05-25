@@ -7,6 +7,10 @@ on:
   push:
     branches: [ master, main, dev, develop ]
 
+permissions:
+  contents: read
+  checks: write
+
 jobs:
   test:
     name: Test and Code Quality
