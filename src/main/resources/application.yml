@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: angola-connection-hub
+
+server:
+  port: ${PORT:8080}
+
+ach:
+  db:
+    platform: ${DB_PLATFORM:h2}
+    url: ${DB_URL:jdbc:h2:mem:testdb}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:}
