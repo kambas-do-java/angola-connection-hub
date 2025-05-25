@@ -45,7 +45,7 @@ jobs:
           git fetch origin ${{ github.base_ref }}
 
           # Check if merge is possible without conflicts
-          if ! git merge-tree $(git merge-base HEAD origin/${{ github.base_ref }}) HEAD origin/${{ github.base_ref }}) | grep -q "<<<<<<< "; then
+          if ! git merge-tree $(git merge-base HEAD origin/${{ github.base_ref }}) HEAD origin/${{ github.base_ref }} | grep -q "<<<<<<< "; then
             echo "✅ No merge conflicts detected"
           else
             echo "❌ Merge conflicts detected. Please resolve conflicts before merging."
