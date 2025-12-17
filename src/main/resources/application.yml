@@ -1,9 +1,11 @@
 spring:
   application:
     name: angola-connection-hub
-
-server:
-  port: ${PORT:8080}
+  cache:
+    type: redis
+  redis:
+    host: ${ACH_REDIS_HOST:localhost}
+    port: ${ACH_REDIS_HOST:6379}
 
 ach:
   db:
@@ -11,3 +13,5 @@ ach:
     url: ${DB_URL:jdbc:h2:mem:testdb}
     username: ${DB_USERNAME:sa}
     password: ${DB_PASSWORD:}
+  tax-portal:
+    url: ${ACH_TAX_PORTAL_URL:https://portaldocontribuinte.minfin.gov.ao/consultar-nif-do-contribuinte}
