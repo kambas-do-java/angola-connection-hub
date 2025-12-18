@@ -41,9 +41,19 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-docker-compose</artifactId>
+      <scope>runtime</scope>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
     <dependency>
       <groupId>com.mysql</groupId>
@@ -55,6 +65,22 @@
       <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-cache</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -79,6 +105,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator-test</artifactId>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.microsoft.playwright</groupId>
+      <artifactId>playwright</artifactId>
+      <version>1.56.0</version>
     </dependency>
   </dependencies>
 
@@ -139,6 +171,15 @@
           <threshold>Low</threshold>
           <failOnError>false</failOnError>
         </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -149,12 +190,21 @@
           <failOnViolation>false</failOnViolation>
           <printFailingErrors>true</printFailingErrors>
         </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
+        <version>0.8.14</version>
         <executions>
           <execution>
             <goals>
@@ -169,21 +219,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.owasp</groupId>
-        <artifactId>dependency-check-maven</artifactId>
-        <version>9.0.7</version>
-        <configuration>
-          <failBuildOnCVSS>7</failBuildOnCVSS>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.10.0.2594</version>
       </plugin>
     </plugins>
   </build>
