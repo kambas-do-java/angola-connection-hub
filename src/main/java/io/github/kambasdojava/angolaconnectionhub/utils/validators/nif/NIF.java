@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Target( { ElementType.METHOD, ElementType.FIELD })
 public @interface NIF {
   NIFType type() default NIFType.ALL;
-  String message() default "NIF inválido";
+  String message() default "Invalid NIF";
   Class<?>[] groups() default {};
   Class<? extends Payload>[] payload() default {};
 }

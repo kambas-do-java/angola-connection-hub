@@ -171,6 +171,15 @@
           <threshold>Low</threshold>
           <failOnError>false</failOnError>
         </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -181,12 +190,21 @@
           <failOnViolation>false</failOnViolation>
           <printFailingErrors>true</printFailingErrors>
         </configuration>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.11</version>
+        <version>0.8.14</version>
         <executions>
           <execution>
             <goals>
@@ -201,21 +219,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.owasp</groupId>
-        <artifactId>dependency-check-maven</artifactId>
-        <version>9.0.7</version>
-        <configuration>
-          <failBuildOnCVSS>7</failBuildOnCVSS>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.10.0.2594</version>
       </plugin>
     </plugins>
   </build>
