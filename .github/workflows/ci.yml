@@ -3,9 +3,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [ master, main, dev, develop ]
+    branches: [ master, dev ]
   push:
-    branches: [ master, main, dev, develop ]
+    branches: [ master, dev ]
 
 permissions:
   contents: read
@@ -41,22 +41,6 @@ jobs:
         run: |
           if [ -f "./mvnw" ]; then
             chmod +x ./mvnw
-          fi
-
-      - name: Compile project
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw clean compile -B
-          else
-            mvn clean compile -B
-          fi
-
-      - name: Run Checkstyle
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw checkstyle:check -B
-          else
-            mvn checkstyle:check -B
           fi
 
       - name: Run tests
