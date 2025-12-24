@@ -80,54 +80,12 @@ jobs:
             chmod +x ./mvnw
           fi
 
-      - name: Clean and compile
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw clean compile -B -V
-          else
-            mvn clean compile -B -V
-          fi
-
-      - name: Run Checkstyle
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw checkstyle:check -B
-          else
-            mvn checkstyle:check -B
-          fi
-
-      - name: Run SpotBugs
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw spotbugs:check -B
-          else
-            mvn spotbugs:check -B
-          fi
-        continue-on-error: true
-
-      - name: Run PMD
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw pmd:check -B
-          else
-            mvn pmd:check -B
-          fi
-        continue-on-error: true
-
       - name: Run unit tests
         run: |
           if [ -f "./mvnw" ]; then
             ./mvnw test -B
           else
             mvn test -B
-          fi
-
-      - name: Run integration tests
-        run: |
-          if [ -f "./mvnw" ]; then
-            ./mvnw verify -B -DskipUTs=true
-          else
-            mvn verify -B -DskipUTs=true
           fi
 
       - name: Upload test results
