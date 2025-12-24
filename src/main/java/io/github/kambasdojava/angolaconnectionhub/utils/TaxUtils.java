@@ -3,7 +3,7 @@ package io.github.kambasdojava.angolaconnectionhub.utils;
 import java.util.regex.Pattern;
 
 public abstract class TaxUtils {
-  private static final Pattern personalTaxIdPattern = Pattern.compile("\\d{9}(LA|HO|HA|BE)\\d{3}");
+  private static final Pattern personalTaxIdPattern = Pattern.compile("\\d{9}(LA|HO|HA|BE|ME|BO|BA|KN|KS|LS|LN)\\d{3}");
   public static String getProvince(String taxId) {
     if (taxId == null) {
       return null;

@@ -3,7 +3,6 @@ package io.github.kambasdojava.angolaconnectionhub.handlers;
 import io.github.kambasdojava.angolaconnectionhub.dto.ApiError;
 import io.github.kambasdojava.angolaconnectionhub.dto.ApiError.ApiErrorDetail;
 import io.github.kambasdojava.angolaconnectionhub.exceptions.ACHException;
-import io.github.kambasdojava.angolaconnectionhub.filters.CorrelationIdFilter;
 import io.github.kambasdojava.angolaconnectionhub.handlers.docs.GlobalExceptionHandlerDocs;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;

@@ -6,9 +6,7 @@ import org.springframework.boot.cache.autoconfigure.RedisCacheManagerBuilderCust
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.serializer.GenericJacksonJsonRedisSerializer;
 import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
-import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.time.Duration;
@@ -21,7 +19,6 @@ public class RedisConfig {
 
   @Bean
   public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer(JsonMapper objectMapper) {
-
     return (builder) -> builder
         .withCacheConfiguration("taxes",
             RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofDays(weekDaysLength))

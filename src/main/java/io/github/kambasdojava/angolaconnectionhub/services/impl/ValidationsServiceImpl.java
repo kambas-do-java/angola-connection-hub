@@ -1,7 +1,9 @@
 package io.github.kambasdojava.angolaconnectionhub.services.impl;
 
-import com.microsoft.playwright.*;
+import com.microsoft.playwright.ElementHandle;
 import com.microsoft.playwright.Page.WaitForSelectorOptions;
+import com.microsoft.playwright.PlaywrightException;
+import com.microsoft.playwright.TimeoutError;
 import io.github.kambasdojava.angolaconnectionhub.exceptions.ACHException;
 import io.github.kambasdojava.angolaconnectionhub.exceptions.RequestTimeoutException;
 import io.github.kambasdojava.angolaconnectionhub.exceptions.ResourceNotFoundException;
@@ -18,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.*;
+import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.E;
+import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.P;
+import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.U;
 
 @Service
 public class ValidationsServiceImpl implements ValidationsService {

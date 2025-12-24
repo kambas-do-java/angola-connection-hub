@@ -31,8 +31,10 @@ public class BrowserServiceImpl implements BrowserService {
   @PreDestroy
   public void cleanup() {
     try {
-      playwright.close();
-      browser.close();
+      if (!browser.isConnected()) {
+        browser.close();
+        playwright.close();
+      }
     } catch (PlaywrightException e) {
       log.error("Occurred an error when trying closing Playwright", e);
     }
