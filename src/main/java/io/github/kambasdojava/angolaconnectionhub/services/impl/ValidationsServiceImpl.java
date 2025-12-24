@@ -23,6 +23,7 @@ import java.util.Optional;
 import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.E;
 import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.P;
 import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.U;
+import static java.util.Locale.ROOT;
 
 @Service
 public class ValidationsServiceImpl implements ValidationsService {
@@ -41,7 +42,7 @@ public class ValidationsServiceImpl implements ValidationsService {
 
       page.navigate(taxPortal);
 
-      page.fill("input[type='text']", request.taxId().trim().toUpperCase());
+      page.fill("input[type='text']", request.taxId().trim().toUpperCase(ROOT));
       page.click("button[type='submit']");
 
       page.waitForSelector("div[class='form-group'] div[class='col-sm-6']",

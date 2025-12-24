@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Optional;
 
+import static java.util.Locale.ROOT;
 import static java.util.Objects.isNull;
 
 public class NIFValidator implements ConstraintValidator<NIF, String> {
@@ -27,6 +28,6 @@ public class NIFValidator implements ConstraintValidator<NIF, String> {
       return false;
     }
 
-    return s.trim().toUpperCase().matches(regex);
+    return s.trim().toUpperCase(ROOT).matches(regex);
   }
 }

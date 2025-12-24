@@ -15,7 +15,7 @@ import static org.springframework.data.redis.serializer.RedisSerializationContex
 
 @Configuration
 public class RedisConfig {
-  private final int weekDaysLength = 7;
+  private static final int weekDaysLength = 7;
 
   @Bean
   public RedisCacheManagerBuilderCustomizer redisCacheManagerBuilderCustomizer(JsonMapper objectMapper) {
