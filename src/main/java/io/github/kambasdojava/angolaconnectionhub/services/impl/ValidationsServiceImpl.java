@@ -1,14 +1,15 @@
 package io.github.kambasdojava.angolaconnectionhub.services.impl;
 
-import com.microsoft.playwright.ElementHandle;
+import com.microsoft.playwright.*;
 import com.microsoft.playwright.Page.WaitForSelectorOptions;
-import com.microsoft.playwright.TimeoutError;
-import io.github.kambasdojava.angolaconnectionhub.exceptions.ConnectionTimeoutException;
+import io.github.kambasdojava.angolaconnectionhub.exceptions.ACHException;
+import io.github.kambasdojava.angolaconnectionhub.exceptions.RequestTimeoutException;
 import io.github.kambasdojava.angolaconnectionhub.exceptions.ResourceNotFoundException;
 import io.github.kambasdojava.angolaconnectionhub.services.BrowserService;
 import io.github.kambasdojava.angolaconnectionhub.services.ValidationsService;
 import io.github.kambasdojava.angolaconnectionhub.dto.TaxData;
 import io.github.kambasdojava.angolaconnectionhub.dto.TaxDataRequest;
+import io.github.kambasdojava.angolaconnectionhub.utils.TaxUtils;
 import jakarta.validation.Valid;
 import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,33 +18,31 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static io.github.kambasdojava.angolaconnectionhub.dto.TaxData.Type.*;
+
 @Service
 public class ValidationsServiceImpl implements ValidationsService {
   private final String taxPortal;
-  private final BrowserService service;
+  private final BrowserService browser;
 
-  public ValidationsServiceImpl(@Value("${ach.tax-portal.url}") String taxPortal,
-                                BrowserService service) {
+  public ValidationsServiceImpl(@Value("${ach.tax-portal.url}") String taxPortal, BrowserService browser) {
     this.taxPortal = taxPortal;
-    this.service = service;
+    this.browser = browser;
   }
 
   @Cacheable(value = "taxes", key = "#request.taxId")
   @Override
   public @NonNull TaxData getTaxData(@Valid @NonNull TaxDataRequest request) {
-    try (var page = service.createPage()) {
+    try (var page = browser.createPage()) {
 
       page.navigate(taxPortal);
 
       page.fill("input[type='text']", request.taxId().trim().toUpperCase());
       page.click("button[type='submit']");
-      try {
-        page.waitForSelector("div[class='form-group'] div[class='col-sm-6']",
-            new WaitForSelectorOptions().setTimeout(3000)
-        );
-      } catch (TimeoutError e) {
-        throw new ConnectionTimeoutException("NIF %s not found".formatted(request.taxId()));
-      }
+
+      page.waitForSelector("div[class='form-group'] div[class='col-sm-6']",
+          new WaitForSelectorOptions().setTimeout(3000)
+      );
 
       var data = page.querySelectorAll("div[class='form-group'] div[class='col-sm-6']")
           .stream()
@@ -58,11 +57,18 @@ public class ValidationsServiceImpl implements ValidationsService {
       var taxId = data.getFirst();
       var name = data.get(1);
       var type = Optional.ofNullable(data.get(2))
-          .map(s -> s.contains("Empresa") ? "Colectivo" : "Particular")
-          .orElse("Desconhecido");
+          .map(s -> s.contains("Empresa") ? E : P)
+          .orElse(U);
+      var province = TaxUtils.getProvince(taxId);
       var isActive = "Activo".equalsIgnoreCase(data.get(3));
 
-      return new TaxData(name, taxId, type, isActive);
+      return new TaxData(taxId, name, province, type, isActive);
+    } catch (PlaywrightException e) {
+      if (e instanceof TimeoutError) {
+        throw new RequestTimeoutException("Cannot get response in time interval");
+      }
+
+      throw new ACHException(e.getMessage());
     }
   }
 }

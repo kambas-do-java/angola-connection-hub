@@ -7,20 +7,34 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.PlaywrightException;
 import io.github.kambasdojava.angolaconnectionhub.services.BrowserService;
+import jakarta.annotation.PreDestroy;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class BrowserServiceImpl implements BrowserService {
+  private final Playwright playwright;
+  private final Browser browser;
+
+  public BrowserServiceImpl() {
+    playwright = Playwright.create();
+    browser = playwright.chromium().launch(new LaunchOptions().setHeadless(true));
+  }
+
   @Override
-  public @NonNull Page createPage() throws PlaywrightException {
-    try (Playwright playwright = Playwright.create()) {
-      try (Browser browser = playwright.chromium().launch(new LaunchOptions().setHeadless(true))) {
-        return browser.newPage(new NewPageOptions().setIgnoreHTTPSErrors(true));
-      }
-    } catch (Exception e) {
-      // Aqui você pode capturar exceções caso ocorra algum erro na criação ou no fechamento
-      throw new PlaywrightException("Erro ao inicializar o Playwright ou o navegador", e);
+  public @NonNull Page createPage() {
+    return browser.newPage(new NewPageOptions().setIgnoreHTTPSErrors(true));
+  }
+
+  @PreDestroy
+  public void cleanup() {
+    try {
+      playwright.close();
+      browser.close();
+    } catch (PlaywrightException e) {
+      log.error("Occurred an error when trying closing Playwright", e);
     }
   }
 }
