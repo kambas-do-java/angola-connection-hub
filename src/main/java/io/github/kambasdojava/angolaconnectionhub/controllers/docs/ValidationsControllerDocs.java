@@ -18,16 +18,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public interface ValidationsControllerDocs extends GlobalOpenAPiDocs {
 
   @Operation(operationId = "validateTaxId", description = "Validate tax id")
-  @ApiResponses({
-      @ApiResponse(
-          responseCode = "200",
-          description = "Returns Valid TaxData",
-          content = @Content(
-              schema = @Schema(implementation = ValidateTaxIdResponse.class),
-              mediaType = APPLICATION_JSON_VALUE
-          )
+  @ApiResponse(
+      responseCode = "200",
+      description = "Returns Valid TaxData",
+      content = @Content(
+          schema = @Schema(implementation = ValidateTaxIdResponse.class),
+          mediaType = APPLICATION_JSON_VALUE
       )
-  })
+  )
   ResponseEntity<@NonNull ValidateTaxIdResponse> validateTaxId(
       @RequestBody ValidateTaxIdRequest request
   );
